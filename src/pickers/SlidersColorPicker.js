@@ -65,6 +65,8 @@ export class SlidersColorPicker extends Component {
 
   updateInput = newColor => this.setState({ inputColor: modes[this.state.mode].getString(newColor), color: tinycolor(newColor).toHsl });
 
+  updateMode = key => this.setState({ mode: key, inputColor: modes[key].getString(newColor) });
+
   render() {
     const {
       visible,
@@ -123,7 +125,7 @@ export class SlidersColorPicker extends Component {
             <View style={styles.modesRow}>
               {Object.keys(modes).map(key => (
                 <TouchableOpacity
-                  onPress={() => this.setState({ mode: key })}
+                  onPress={() => this.updateMode(key)}
                   key={key}
                   style={[
                     styles.mode,
@@ -277,6 +279,7 @@ const styles = StyleSheet.create({
     borderRadius: 3
   },
   modeText: {
+    color: 'black',
     lineHeight: 18,
     fontSize: 13,
     ...Platform.select({

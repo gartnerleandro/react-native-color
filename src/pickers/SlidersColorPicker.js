@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     maxHeight: 100,
     maxWidth: 100,
     borderRadius: 3,
-    borderSize: 1,
+    borderWidth: 1,
     borderColor: '#a8a8a8',
   }
 });

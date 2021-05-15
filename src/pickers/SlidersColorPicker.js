@@ -65,7 +65,7 @@ export class SlidersColorPicker extends Component {
 
   updateInput = newColor => this.setState({ inputColor: modes[this.state.mode].getString(newColor), color: tinycolor(newColor).toHsl });
 
-  updateMode = key => this.setState({ mode: key, inputColor: modes[key].getString(newColor) });
+  updateMode = key => this.setState({ mode: key, inputColor: modes[key].getString(this.state.color) });
 
   render() {
     const {

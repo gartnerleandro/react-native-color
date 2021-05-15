@@ -73,7 +73,7 @@ const SlidersColorPicker = ({
 
   const onConfirm = () => onOk(modes[returnMode].getString(currentColor));
   const onUpdateMode = (key) => {
-    setInputColor(modes[key].getString(color));
+    setInputColor(modes[key].getString(currentColor));
     setMode(key);
   };
 

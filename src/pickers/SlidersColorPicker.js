@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import tinycolor from 'tinycolor2';
+
 import HueSlider from '../sliders/HueSlider';
 import SaturationSlider from '../sliders/SaturationSlider';
 import LightnessSlider from '../sliders/LightnessSlider';
@@ -57,26 +58,26 @@ const SlidersColorPicker = ({
     setInputColor(modes[mode].getString(color));
   }, [color]);
 
-  const onUpdateColor = useCallback((newColor) => {
+  const onUpdateColor = (newColor) => {
     setCurrentColor(newColor);
     setColorHex(tinycolor(newColor).toHexString());
     setInputColor(modes[mode].getString(newColor));
-  }, [mode]);
+  };
 
-  const updateHue = useCallBack((h) => onUpdateColor({ ...currentColor, h }), [currentColor, onUpdateColor]);
-  const updateSaturation = useCallBack((s) => onUpdateColor({ ...currentColor, s }), [currentColor, onUpdateColor]);
-  const updateLightness = useCallBack((l) => onUpdateColor({ ...currentColor, l }), [currentColor, onUpdateColor]);
-  const updateInput = useCallBack((newColor) => {
+  const updateHue = (h) => onUpdateColor({ ...currentColor, h });
+  const updateSaturation = (s) => onUpdateColor({ ...currentColor, s });
+  const updateLightness = (l) => onUpdateColor({ ...currentColor, l });
+  const updateInput = (newColor) => {
     setCurrentColor(tinycolor(newColor).toHsl());
     setColorHex(tinycolor(newColor).toHexString());
     setInputColor(modes[mode].getString(newColor));
-  }, [mode]);
+  };
 
-  const onConfirm = useCallBack(() => onOk(modes[returnMode].getString(currentColor)), [currentColor, returnMode]);
-  const onUpdateMode = useCallBack((key) => {
+  const onConfirm = () => onOk(modes[returnMode].getString(currentColor));
+  const onUpdateMode = (key) => {
     setMode(key);
     setInputColor(modes[key].getString(currentColor));
-  }, [key, currentColor]);
+  };
 
   return (
     <Modal

@@ -97,12 +97,9 @@ export class SlidersColorPicker extends Component {
               )}
             </View>
             <View style={styles.colorString}>
-              <TextInput
-                value={modes[this.state.mode].getString(this.state.color)}
-                ref={hexInputRef}
-                onBlur={this.updateHex}
-                style={styles.colorStringText}
-              />
+              <Text style={styles.colorStringText}>
+                {modes[this.state.mode].getString(this.state.color)}
+              </Text>
             </View>
             <View style={styles.modesRow}>
               {Object.keys(modes).map(key => (

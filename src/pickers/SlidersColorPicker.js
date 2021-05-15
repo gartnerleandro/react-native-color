@@ -48,22 +48,22 @@ export class SlidersColorPicker extends Component {
   updateHue = h => {
     const updatedColor = { ...this.state.color, h };
 
-    this.setState({ inputColor: modes[mode].getString(updatedColor), color: updatedColor })
+    this.setState({ inputColor: modes[this.state.mode].getString(updatedColor), color: updatedColor })
   };
 
   updateSaturation = s => {
     const updatedColor = { ...this.state.color, s };
 
-    this.setState({ inputColor: modes[mode].getString(updatedColor), color: updatedColor })
+    this.setState({ inputColor: modes[this.state.mode].getString(updatedColor), color: updatedColor })
   };
 
   updateLightness = l => {
     const updatedColor = { ...this.state.color, l };
 
-    this.setState({ inputColor: modes[mode].getString(updatedColor), color: updatedColor })
+    this.setState({ inputColor: modes[this.state.mode].getString(updatedColor), color: updatedColor })
   };
 
-  updateInput = newColor => this.setState({ inputColor: modes[mode].getString(newColor), color: tinycolor(newColor).toHsl });
+  updateInput = newColor => this.setState({ inputColor: modes[this.state.mode].getString(newColor), color: tinycolor(newColor).toHsl });
 
   render() {
     const {

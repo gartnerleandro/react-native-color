@@ -6,6 +6,7 @@ import {
   Modal,
   Platform,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import tinycolor from 'tinycolor2';

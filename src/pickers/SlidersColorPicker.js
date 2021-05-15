@@ -341,14 +341,17 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    flexWrap: 'wrap',
   },
   swatch: {
     flex: 1,
     aspectRatio: 1,
     maxHeight: 100,
     maxWidth: 100,
-    borderRadius: 3
+    borderRadius: 3,
+    borderSize: 1,
+    borderColor: '#a8a8a8',
   }
 });
 

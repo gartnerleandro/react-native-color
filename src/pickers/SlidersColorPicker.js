@@ -72,6 +72,10 @@ const SlidersColorPicker = ({
   };
 
   const onConfirm = () => onOk(modes[returnMode].getString(currentColor));
+  const onUpdateMode = (key) => {
+    setInputColor(modes[key].getString(color));
+    setMode(key);
+  };
 
   return (
     <Modal
@@ -116,7 +120,7 @@ const SlidersColorPicker = ({
             <View style={styles.modesRow}>
               {Object.keys(modes).map((key) => (
                 <TouchableOpacity
-                  onPress={() => setMode(key)}
+                  onPress={() => onUpdateMode(key)}
                   key={key}
                   style={[
                     styles.mode,
@@ -360,4 +364,5 @@ SlidersColorPicker.defaultProps = {
   value: '#70c1b3',
   showPreviewText: false,
   showModes: false,
+  color: '#000000',
 };

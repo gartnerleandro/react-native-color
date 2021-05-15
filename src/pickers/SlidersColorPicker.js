@@ -55,6 +55,10 @@ const SlidersColorPicker = ({
     setColorHex(color);
   }, [color]);
 
+  useEffect(() => {
+    setColorHex(tinycolor(currentColor).toHexString());
+  }, [currentColor]);
+
   const updateHue = (h) => setCurrentColor({ ...currentColor, h });
   const updateSaturation = (s) => setCurrentColor({ ...currentColor, s });
   const updateLightness = (l) => setCurrentColor({ ...currentColor, l });
@@ -99,7 +103,7 @@ const SlidersColorPicker = ({
               value={modes[mode].getString(currentColor)}
               ref={hexInputRef}
               onBlur={updateHex}
-              style={styles.colorStringText}
+              style={styles.colorHexText}
             />
           </View>
           <View style={styles.modesRow}>
@@ -282,9 +286,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: '#DDDDDD'
   },
-  colorStringText: {
+  colorHexText: {
     lineHeight: 24,
     fontSize: 20,
+    color: '#000000',
     ...Platform.select({
       android: {
         fontFamily: 'monospace'

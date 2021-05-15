@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -48,7 +48,6 @@ const SlidersColorPicker = ({
   const [ currentColor, setCurrentColor ] = useState(tinycolor(color).toHsl());
   const [ colorHex, setColorHex ] = useState(color);
   const [ mode, setMode] = useState('hex');
-  const hexInputRef = useRef(null);
 
   useEffect(() => {
     setCurrentColor(tinycolor(color).toHsl());
@@ -59,10 +58,14 @@ const SlidersColorPicker = ({
     setColorHex(tinycolor(currentColor).toHexString());
   }, [currentColor]);
 
+  useEffect(() => {
+    setCurrentColor(tinycolor(colorHex).toHsl());
+  }, [colorHex]);
+
   const updateHue = (h) => setCurrentColor({ ...currentColor, h });
   const updateSaturation = (s) => setCurrentColor({ ...currentColor, s });
   const updateLightness = (l) => setCurrentColor({ ...currentColor, l });
-  const updateHex = () => setCurrentColor(tinycolor(hexInputRef.current.value).toHsl());
+  const updateHex = (newHex) => setCurrentColor(tinycolor(newHex).toHsl());
 
   const onConfirm = () => onOk(modes[returnMode].getString(currentColor));
 
@@ -100,9 +103,8 @@ const SlidersColorPicker = ({
           </View>
           <View style={styles.colorString}>
             <TextInput
-              value={modes[mode].getString(currentColor)}
-              ref={hexInputRef}
-              onBlur={updateHex}
+              value={colorHex}
+              onChangeText={updateHex}
               style={styles.colorHexText}
             />
           </View>

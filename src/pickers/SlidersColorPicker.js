@@ -345,13 +345,14 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   swatch: {
-    flex: 1,
+    flex: 0,
     aspectRatio: 1,
-    maxHeight: 100,
-    maxWidth: 100,
+    width: 55,
+    height: 55,
     borderRadius: 3,
     borderWidth: 1,
     borderColor: '#a8a8a8',
+    marginBottom: 10,
   }
 });
 

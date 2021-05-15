@@ -44,9 +44,11 @@ const SlidersColorPicker = ({
   swatchesLabel,
   visible,
   returnMode,
+  showModes,
 }) => {
   const [ currentColor, setCurrentColor ] = useState(tinycolor(color).toHsl());
   const [ colorHex, setColorHex ] = useState(color);
+  const [ inputColor, setInputColor ] = useState(color);
   const [ mode, setMode] = useState('hex');
 
   useEffect(() => {
@@ -57,14 +59,16 @@ const SlidersColorPicker = ({
   const onUpdateColor = (color) => {
     setCurrentColor(color);
     setColorHex(tinycolor(color).toHexString());
+    setInputColor(modes[mode].getString(color));
   }
 
   const updateHue = (h) => onUpdateColor({ ...currentColor, h });
   const updateSaturation = (s) => onUpdateColor({ ...currentColor, s });
   const updateLightness = (l) => onUpdateColor({ ...currentColor, l });
-  const updateHex = (newHex) => {
-    setCurrentColor(tinycolor(newHex).toHsl());
-    setColorHex(newHex);
+  const updateInput = (newColor) => {
+    setCurrentColor(tinycolor(newColor).toHsl());
+    setColorHex(tinycolor(newColor).toHexString());
+    setInputColor(modes[mode].getString(newColor));
   };
 
   const onConfirm = () => onOk(modes[returnMode].getString(currentColor));
@@ -103,32 +107,34 @@ const SlidersColorPicker = ({
           </View>
           <View style={styles.colorString}>
             <TextInput
-              value={colorHex}
-              onChangeText={updateHex}
+              value={inputColor}
+              onChangeText={updateInput}
               style={styles.colorHexText}
             />
           </View>
-          <View style={styles.modesRow}>
-            {Object.keys(modes).map((key) => (
-              <TouchableOpacity
-                onPress={() => setMode(key)}
-                key={key}
-                style={[
-                  styles.mode,
-                  mode === key && styles.modeActive
-                ]}
-              >
-                <Text
+          {showModes && (
+            <View style={styles.modesRow}>
+              {Object.keys(modes).map((key) => (
+                <TouchableOpacity
+                  onPress={() => setMode(key)}
+                  key={key}
                   style={[
-                    styles.modeText,
-                    mode === key && styles.modeTextActive
+                    styles.mode,
+                    mode === key && styles.modeActive
                   ]}
                 >
-                  {modes[key].label}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+                  <Text
+                    style={[
+                      styles.modeText,
+                      mode === key && styles.modeTextActive
+                    ]}
+                  >
+                    {modes[key].label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
           <View style={styles.sliders}>
             <HueSlider
               style={styles.sliderRow}
@@ -345,6 +351,7 @@ SlidersColorPicker.propTypes = {
   swatchesLabel: PropTypes.string.isRequired,
   value: PropTypes.string,
   visible: PropTypes.bool.isRequired,
+  showModes: PropTypes.bool,
 };
 
 SlidersColorPicker.defaultProps = {
@@ -352,4 +359,5 @@ SlidersColorPicker.defaultProps = {
   cancelLabel: 'Cancel',
   value: '#70c1b3',
   showPreviewText: false,
+  showModes: false,
 };

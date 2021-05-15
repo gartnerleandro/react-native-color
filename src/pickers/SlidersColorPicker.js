@@ -16,19 +16,19 @@ import LightnessSlider from '../sliders/LightnessSlider';
 
 const modes = {
   hex: {
-    getString: color => tinycolor(color).toHexString(),
+    getString: (color) => tinycolor(color).toHexString(),
     label: 'HEX'
   },
   hsl: {
-    getString: color => tinycolor(color).toHslString(),
+    getString: (color) => tinycolor(color).toHslString(),
     label: 'HSL'
   },
   hsv: {
-    getString: color => tinycolor(color).toHsvString(),
+    getString: (color) => tinycolor(color).toHsvString(),
     label: 'HSV'
   },
   rgb: {
-    getString: color => tinycolor(color).toRgbString(),
+    getString: (color) => tinycolor(color).toRgbString(),
     label: 'RGB'
   }
 };
@@ -54,18 +54,18 @@ const SlidersColorPicker = ({
     setColorHex(color);
   }, [color]);
 
-  useEffect(() => {
-    setColorHex(tinycolor(currentColor).toHexString());
-  }, [currentColor]);
+  const onUpdateColor = (color) => {
+    setCurrentColor(color);
+    setColorHex(tinycolor(color).toHexString());
+  }
 
-  useEffect(() => {
-    setCurrentColor(tinycolor(colorHex).toHsl());
-  }, [colorHex]);
-
-  const updateHue = (h) => setCurrentColor({ ...currentColor, h });
-  const updateSaturation = (s) => setCurrentColor({ ...currentColor, s });
-  const updateLightness = (l) => setCurrentColor({ ...currentColor, l });
-  const updateHex = (newHex) => setCurrentColor(tinycolor(newHex).toHsl());
+  const updateHue = (h) => onUpdateColor({ ...currentColor, h });
+  const updateSaturation = (s) => onUpdateColor({ ...currentColor, s });
+  const updateLightness = (l) => onUpdateColor({ ...currentColor, l });
+  const updateHex = (newHex) => {
+    setCurrentColor(tinycolor(newHex).toHsl());
+    setColorHex(newHex);
+  };
 
   const onConfirm = () => onOk(modes[returnMode].getString(currentColor));
 
@@ -264,6 +264,7 @@ const styles = StyleSheet.create({
   modeText: {
     lineHeight: 18,
     fontSize: 13,
+    color: '#000000',
     ...Platform.select({
       android: {
         fontFamily: 'sans-serif'
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
     })
   },
   modeTextActive: {
-    color: 'white'
+    color: '#FFFFFF'
   },
   sliders: {
     marginTop: 16

@@ -5,7 +5,8 @@ import {
   View,
   Modal,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import tinycolor from 'tinycolor2';
@@ -46,6 +47,7 @@ export class SlidersColorPicker extends Component {
   updateHue = h => this.setState({ color: { ...this.state.color, h } });
   updateSaturation = s => this.setState({ color: { ...this.state.color, s } });
   updateLightness = l => this.setState({ color: { ...this.state.color, l } });
+  updateHex = (hexColor) => this.setState({ color: tinycolor(hexColor).toHsl() });
 
   render() {
     const {
@@ -56,7 +58,7 @@ export class SlidersColorPicker extends Component {
       onCancel,
       okLabel,
       cancelLabel,
-      colorMode
+      showPreviewText,
     } = this.props;
     const colorHex = tinycolor(this.state.color).toHexString();
     return (
@@ -80,21 +82,27 @@ export class SlidersColorPicker extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.content}>
-            <View
-              style={[
-                styles.colorPreview,
-                {
-                  backgroundColor: colorHex
-                }
-              ]}
-            >
-              <Text style={styles.lightText}>LIGHT TEXT</Text>
-              <Text style={styles.darkText}>DARK TEXT</Text>
-            </View>
+            {
+              showPreviewText && (
+                <View
+                  style={[
+                    styles.colorPreview,
+                    {
+                      backgroundColor: colorHex
+                    }
+                  ]}
+                >
+                  <Text style={styles.lightText}>LIGHT TEXT</Text>
+                  <Text style={styles.darkText}>DARK TEXT</Text>
+                </View>
+              )
+            }
             <View style={styles.colorString}>
-              <Text style={styles.colorStringText}>
-                {modes[this.state.mode].getString(this.state.color)}
-              </Text>
+              <TextInput
+                value={modes[this.state.mode].getString(this.state.color)}
+                onChangeText={}
+                style={styles.colorStringText}
+              />
             </View>
             <View style={styles.modesRow}>
               {Object.keys(modes).map(key => (
@@ -325,18 +333,20 @@ const styles = StyleSheet.create({
 });
 
 SlidersColorPicker.propTypes = {
-  visible: PropTypes.bool.isRequired,
+  cancelLabel: PropTypes.string.isRequired,
+  okLabel: PropTypes.string.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onOk: PropTypes.func.isRequired,
+  showPreviewText: PropTypes.bool,
   swatches: PropTypes.arrayOf(PropTypes.string).isRequired,
   swatchesLabel: PropTypes.string.isRequired,
-  onOk: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  okLabel: PropTypes.string.isRequired,
-  cancelLabel: PropTypes.string.isRequired,
-  value: PropTypes.string
+  value: PropTypes.string,
+  visible: PropTypes.bool.isRequired,
 };
 
 SlidersColorPicker.defaultProps = {
   okLabel: 'Ok',
   cancelLabel: 'Cancel',
-  value: '#70c1b3'
+  value: '#70c1b3',
+  showPreviewText: false,
 };

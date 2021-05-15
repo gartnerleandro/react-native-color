@@ -34,6 +34,7 @@
   "homepage": "https://github.com/hectahertz/react-native-color#readme",
   "dependencies": {
     "prop-types": "^15.6.0",
+    "react-native-elements": "^3.4.1",
     "react-native-slider": "^0.11.0",
     "tinycolor2": "^1.4.1"
   },

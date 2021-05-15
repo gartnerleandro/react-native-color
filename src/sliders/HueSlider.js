@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import GradientSlider from './GradientSlider';
 import HueGradient from '../gradients/HueGradient';

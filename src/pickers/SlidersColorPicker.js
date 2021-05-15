@@ -100,7 +100,7 @@ export class SlidersColorPicker extends Component {
             <View style={styles.colorString}>
               <TextInput
                 value={modes[this.state.mode].getString(this.state.color)}
-                onChangeText={}
+                onChangeText={updateHex}
                 style={styles.colorStringText}
               />
             </View>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   StyleSheet,
   Text,
@@ -53,29 +53,30 @@ const SlidersColorPicker = ({
 
   useEffect(() => {
     setCurrentColor(tinycolor(color).toHsl());
-    setColorHex(color);
-  }, [color]);
-
-  const onUpdateColor = (color) => {
-    setCurrentColor(color);
     setColorHex(tinycolor(color).toHexString());
     setInputColor(modes[mode].getString(color));
-  }
+  }, [color]);
 
-  const updateHue = (h) => onUpdateColor({ ...currentColor, h });
-  const updateSaturation = (s) => onUpdateColor({ ...currentColor, s });
-  const updateLightness = (l) => onUpdateColor({ ...currentColor, l });
-  const updateInput = (newColor) => {
+  const onUpdateColor = useCallback((newColor) => {
+    setCurrentColor(newColor);
+    setColorHex(tinycolor(newColor).toHexString());
+    setInputColor(modes[mode].getString(newColor));
+  }, [mode]);
+
+  const updateHue = useCallBack((h) => onUpdateColor({ ...currentColor, h }), [currentColor, onUpdateColor]);
+  const updateSaturation = useCallBack((s) => onUpdateColor({ ...currentColor, s }), [currentColor, onUpdateColor]);
+  const updateLightness = useCallBack((l) => onUpdateColor({ ...currentColor, l }), [currentColor, onUpdateColor]);
+  const updateInput = useCallBack((newColor) => {
     setCurrentColor(tinycolor(newColor).toHsl());
     setColorHex(tinycolor(newColor).toHexString());
     setInputColor(modes[mode].getString(newColor));
-  };
+  }, [mode]);
 
-  const onConfirm = () => onOk(modes[returnMode].getString(currentColor));
-  const onUpdateMode = (key) => {
-    setInputColor(modes[key].getString(currentColor));
+  const onConfirm = useCallBack(() => onOk(modes[returnMode].getString(currentColor)), [currentColor, returnMode]);
+  const onUpdateMode = useCallBack((key) => {
     setMode(key);
-  };
+    setInputColor(modes[key].getString(currentColor));
+  }, [key, currentColor]);
 
   return (
     <Modal
@@ -356,6 +357,7 @@ SlidersColorPicker.propTypes = {
   value: PropTypes.string,
   visible: PropTypes.bool.isRequired,
   showModes: PropTypes.bool,
+  color: PropTypes.string,
 };
 
 SlidersColorPicker.defaultProps = {
